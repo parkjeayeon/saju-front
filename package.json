@@ -1,0 +1,16 @@
+{
+  "name": "saju",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently -n frontend,mcp -c green,blue \"pnpm --filter ./apps/frontend dev\" \"pnpm --filter ./apps/mcp dev\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.26.2",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}
