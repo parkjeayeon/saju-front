@@ -38,7 +38,9 @@ export default async function RootLayout({
   return (
     <html lang={p.locale} suppressHydrationWarning>
       <head>
-        <NextChatSDKBootstrap baseUrl={'http://localhost:8000'} />
+        <NextChatSDKBootstrap
+          baseUrl={process.env.NEXTJS_URL || 'http://localhost:8000'}
+        />
       </head>
       <body
         suppressHydrationWarning
