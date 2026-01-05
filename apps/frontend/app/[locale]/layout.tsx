@@ -55,6 +55,7 @@ export default async function RootLayout({
 function NextChatSDKBootstrap({ baseUrl }: { baseUrl: string }) {
   return (
     <>
+      <base href={baseUrl}></base>
       <script>{`window.innerBaseUrl = ${JSON.stringify(baseUrl)}`}</script>
       <script
         suppressHydrationWarning
