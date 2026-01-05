@@ -35,9 +35,8 @@ export default async function RootLayout({
   if (!languages.includes(p.locale as any)) {
     notFound();
   }
-  const { t } = await getTranslation(p.locale, 'default');
   return (
-    <html lang={p.locale}>
+    <html lang={p.locale} suppressHydrationWarning>
       <head>
         <NextChatSDKBootstrap baseUrl={'http://localhost:8000'} />
       </head>
@@ -56,8 +55,10 @@ function NextChatSDKBootstrap({ baseUrl }: { baseUrl: string }) {
     <>
       <base href={baseUrl}></base>
       <script>{`window.innerBaseUrl = ${JSON.stringify(baseUrl)}`}</script>
-      <script>{`window.__isChatGptApp = typeof window.openai !== "undefined";`}</script>
-      <script>
+      <script
+        suppressHydrationWarning
+      >{`window.__isChatGptApp = typeof window.openai !== "undefined";`}</script>
+      <script suppressHydrationWarning>
         {'(' +
           (() => {
             const baseUrl = window.innerBaseUrl;
