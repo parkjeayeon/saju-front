@@ -1,14 +1,8 @@
-// app/[locale]/widgets/calculate/page.tsx
 'use client';
 
 import { useEffect, useState } from 'react';
 import { useTranslation } from '@/app/i18n/client';
-import {
-  useDisplayMode,
-  useIsChatGptApp,
-  useMaxHeight,
-  useWidgetProps,
-} from '@/hooks';
+import { useDisplayMode, useMaxHeight, useWidgetProps } from '@/hooks';
 
 type CalculateData = {
   operation?: string;
@@ -23,19 +17,42 @@ type CalculateData = {
 type WidgetProps = {
   structuredContent?: CalculateData;
 } & CalculateData;
+
 export default function CalculateWidget() {
-  const props = useWidgetProps<WidgetProps>();
   const { t } = useTranslation();
   const maxHeight = useMaxHeight() ?? undefined;
   const displayMode = useDisplayMode();
-  const data = props?.structuredContent || props;
+
+  // 🔥 여러 소스에서 데이터 가져오기
+  const [data, setData] = useState<CalculateData | null>(null);
+
+  useEffect(() => {
+    // 1순위: window.openai.toolOutput
+    if (typeof window !== 'undefined' && (window as any).openai?.toolOutput) {
+      setData((window as any).openai.toolOutput);
+      return;
+    }
+
+    // 2순위: window.__WIDGET_DATA__ (NestJS에서 주입)
+    if (typeof window !== 'undefined' && (window as any).__WIDGET_DATA__) {
+      setData((window as any).__WIDGET_DATA__);
+      return;
+    }
+
+    // 3순위: useWidgetProps (기존 방식)
+    const props = useWidgetProps<WidgetProps>();
+    if (props?.structuredContent || props) {
+      setData(props?.structuredContent || props);
+    }
+  }, []);
+
   const operation = data?.operation || 'add';
   const a = data?.a ?? 0;
   const b = data?.b ?? 0;
   const symbol = data?.symbol || '+';
   const result = data?.result ?? 0;
   const expression = data?.expression || `${a} ${symbol} ${b}`;
-  const [w, setW] = useState<any>();
+
   const operationConfig: Record<
     string,
     { gradient: string; emoji: string; label: string }
@@ -64,13 +81,6 @@ export default function CalculateWidget() {
 
   const config = operationConfig[operation] || operationConfig.add;
 
-  useEffect(() => {
-    // 클라이언트 환경인지 확인
-    if (typeof window !== 'undefined' && window.openai) {
-      setW(window.openai);
-    }
-  }, []);
-
   return (
     <div
       className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 p-6"
@@ -79,7 +89,6 @@ export default function CalculateWidget() {
         height: displayMode === 'fullscreen' ? maxHeight : undefined,
       }}
     >
-      {JSON.stringify(w, null, 2)}
       <div className="w-full max-w-sm">
         {/* 메인 카드 */}
         <div className="relative">
@@ -99,7 +108,7 @@ export default function CalculateWidget() {
                 </span>
               </div>
             </div>
-            {JSON.stringify(result, null, 2)}
+
             {/* 계산기 디스플레이 */}
             <div className="p-6">
               {/* 수식 */}
@@ -144,6 +153,16 @@ export default function CalculateWidget() {
             </div>
           </div>
         </div>
+
+        {/* 디버깅 정보 */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="mt-4 rounded-lg bg-slate-800/50 p-3 text-xs text-slate-400">
+            <div>Data Source: {data ? '✅ Loaded' : '❌ Missing'}</div>
+            <pre className="mt-2 overflow-auto">
+              {JSON.stringify(data, null, 2)}
+            </pre>
+          </div>
+        )}
 
         {/* 푸터 */}
         <p className="mt-6 text-center text-sm text-slate-500">
