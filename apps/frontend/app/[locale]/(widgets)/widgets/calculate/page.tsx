@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useDisplayMode, useMaxHeight, useWidgetProps } from '@/hooks';
-import { baseURL } from '@/baseUrl';
+import { useTranslation } from '@/app/i18n/client';
 
 type CalculateData = {
   operation?: string;
@@ -24,6 +24,7 @@ export default function CalculateWidget() {
   const props = useWidgetProps<WidgetProps>();
   const maxHeight = useMaxHeight() ?? undefined;
   const displayMode = useDisplayMode();
+  const { t } = useTranslation();
 
   const data = props?.result?.structuredContent || props;
   const operation = data?.operation || 'add';
@@ -75,7 +76,6 @@ export default function CalculateWidget() {
           <div
             className={`absolute -inset-1 bg-gradient-to-r ${config.gradient} rounded-3xl opacity-50 blur-lg`}
           />
-
           {/* 카드 본체 */}
           <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/95 backdrop-blur-xl">
             {/* 헤더 */}
@@ -87,8 +87,6 @@ export default function CalculateWidget() {
                 </span>
               </div>
             </div>
-            {baseURL}
-            {JSON.stringify(result, null, 2)}
             {/* 계산기 디스플레이 */}
             <div className="p-6">
               {/* 수식 */}
@@ -111,7 +109,7 @@ export default function CalculateWidget() {
                     <span className="text-2xl font-bold text-white">{a}</span>
                   </div>
                   <span className="text-xs tracking-wider text-slate-500 uppercase">
-                    첫 번째
+                    {t('first_number')}
                   </span>
                 </div>
 
@@ -126,7 +124,7 @@ export default function CalculateWidget() {
                     <span className="text-2xl font-bold text-white">{b}</span>
                   </div>
                   <span className="text-xs tracking-wider text-slate-500 uppercase">
-                    두 번째
+                    {t('second_number')}
                   </span>
                 </div>
               </div>
