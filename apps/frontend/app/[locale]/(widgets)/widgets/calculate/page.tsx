@@ -30,7 +30,7 @@ export default function CalculateWidget() {
   const operation = data?.operation || 'add';
   const a = data?.a ?? 0;
   const b = data?.b ?? 0;
-  const language = data?.language ?? 0;
+  const language = data?.language || 'ko';
   const symbol = data?.symbol || '+';
   const result = data?.result ?? 0;
   const expression = data?.expression || `${a} ${symbol} ${b}`;
