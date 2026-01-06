@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react';
 export default function GreetWidget() {
   const [data, setData] = useState({ name: '사용자', greeting: '안녕하세요!' });
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [add, setAdd] = useState(0);
 
   useEffect(() => {
     const loadData = () => {
@@ -33,6 +34,8 @@ export default function GreetWidget() {
           <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-pink-500 to-violet-500 opacity-50 blur-lg" />
           <div className="relative rounded-3xl border border-white/20 bg-white/10 p-8 backdrop-blur-xl">
             <div className="text-center">
+              <div>{add}</div>
+              <button onClick={() => setAdd((prev) => prev + 1)}>+</button>
               <div className="mb-6 text-7xl">👋</div>
               <h2 className="mb-4 text-3xl font-bold text-white">{greeting}</h2>
               <div className="inline-block rounded-full bg-white/20 px-6 py-2">
