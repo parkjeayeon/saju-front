@@ -35,7 +35,7 @@ export default function CalculateWidget() {
   const result = data?.result ?? 0;
   const expression = data?.expression || `${a} ${symbol} ${b}`;
 
-  const { t } = useTranslationManual({ lang: language });
+  const { t } = useTranslationManual({ lang: 'en' });
 
   const operationConfig: Record<
     string,
