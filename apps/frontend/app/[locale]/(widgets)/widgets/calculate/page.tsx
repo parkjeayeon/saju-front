@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useDisplayMode, useMaxHeight, useWidgetProps } from '@/hooks';
-import { useTranslation } from '@/app/i18n/client';
+import { useTranslation, useTranslationManual } from '@/app/i18n/client';
 
 type CalculateData = {
   operation?: string;
@@ -12,6 +12,7 @@ type CalculateData = {
   result?: number;
   expression?: string;
   timestamp?: string;
+  language: 'en' | 'ko';
 };
 
 type WidgetProps = {
@@ -24,15 +25,17 @@ export default function CalculateWidget() {
   const props = useWidgetProps<WidgetProps>();
   const maxHeight = useMaxHeight() ?? undefined;
   const displayMode = useDisplayMode();
-  const { t } = useTranslation();
 
   const data = props?.result?.structuredContent || props;
   const operation = data?.operation || 'add';
   const a = data?.a ?? 0;
   const b = data?.b ?? 0;
+  const language = data?.language ?? 0;
   const symbol = data?.symbol || '+';
   const result = data?.result ?? 0;
   const expression = data?.expression || `${a} ${symbol} ${b}`;
+
+  const { t } = useTranslationManual({ lang: language });
 
   const operationConfig: Record<
     string,
