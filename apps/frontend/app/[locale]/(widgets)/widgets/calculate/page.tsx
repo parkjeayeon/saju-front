@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useDisplayMode, useMaxHeight, useWidgetProps } from '@/hooks';
+import { baseURL } from '@/baseUrl';
 
 type CalculateData = {
   operation?: string;
@@ -86,6 +87,7 @@ export default function CalculateWidget() {
                 </span>
               </div>
             </div>
+            {baseURL}
             {JSON.stringify(result, null, 2)}
             {/* 계산기 디스플레이 */}
             <div className="p-6">
