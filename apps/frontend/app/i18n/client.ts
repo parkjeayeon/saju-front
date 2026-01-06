@@ -75,13 +75,15 @@ export function useTranslationManual({
   ns,
   lng = 'en',
 }: UseTranslationManualArgs = {}) {
-  const ret = useTranslationOrg(ns, { lng });
+  const [json, setJson] = useState('');
 
-  // Cookie 설정은 브라우저 자체 API 사용
   useEffect(() => {
-    if (!lng || typeof window === 'undefined') return;
-    document.cookie = `${cookieName}=${lng}; path=/; max-age=31536000`; // 1년
-  }, [lng]);
+    async function getJson() {
+      const data = await import(`./locales/${lng}.json`);
+      setJson(data['default']);
+    }
+    getJson();
+  }, []);
 
-  return ret;
+  return json;
 }

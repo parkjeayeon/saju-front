@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { useDisplayMode, useMaxHeight, useWidgetProps } from '@/hooks';
-import { useTranslation, useTranslationManual } from '@/app/i18n/client';
+import { useTranslationManual } from '@/app/i18n/client';
 import { usePathname } from 'next/navigation';
 
 type CalculateData = {
@@ -36,7 +36,7 @@ export default function CalculateWidget() {
   const result = data?.result ?? 0;
   const expression = data?.expression || `${a} ${symbol} ${b}`;
 
-  const { t } = useTranslationManual({ lng: 'en' });
+  const t: any = useTranslationManual({ lng: 'ko' });
   const pathname = usePathname();
   const operationConfig: Record<
     string,
@@ -114,10 +114,9 @@ export default function CalculateWidget() {
                     <span className="text-2xl font-bold text-white">{a}</span>
                   </div>
                   <span className="text-xs tracking-wider text-slate-500 uppercase">
-                    {t('first_number')}
+                    {t['first_number']}
                   </span>
                 </div>
-                <div>{language}</div>
                 <div
                   className={`h-12 w-12 rounded-full bg-gradient-to-br ${config.gradient} flex items-center justify-center shadow-lg`}
                 >
@@ -129,7 +128,7 @@ export default function CalculateWidget() {
                     <span className="text-2xl font-bold text-white">{b}</span>
                   </div>
                   <span className="text-xs tracking-wider text-slate-500 uppercase">
-                    {t('second_number')}
+                    {t['second_number']}
                   </span>
                 </div>
               </div>
