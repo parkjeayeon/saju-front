@@ -2,23 +2,19 @@
 
 import { Badge } from '@openai/apps-sdk-ui/components/Badge';
 import { useWidgetProps, useMaxHeight, useDisplayMode } from '@/hooks';
-
 type GreetData = {
   name?: string;
   language?: string;
   greeting?: string;
-  timestamp?: string;
-  result?: {
-    structuredContent?: {
-      name?: string;
-      language?: string;
-      greeting?: string;
-    };
-  };
 };
+type WidgetProps = {
+  result?: {
+    structuredContent?: GreetData;
+  };
+} & GreetData;
 
 export default function GreetWidget() {
-  const props = useWidgetProps<GreetData>();
+  const props = useWidgetProps<WidgetProps>();
   const maxHeight = useMaxHeight() ?? undefined;
   const displayMode = useDisplayMode();
 
