@@ -3,6 +3,7 @@
 import React from 'react';
 import { useDisplayMode, useMaxHeight, useWidgetProps } from '@/hooks';
 import { useTranslation, useTranslationManual } from '@/app/i18n/client';
+import { usePathname } from 'next/navigation';
 
 type CalculateData = {
   operation?: string;
@@ -35,8 +36,8 @@ export default function CalculateWidget() {
   const result = data?.result ?? 0;
   const expression = data?.expression || `${a} ${symbol} ${b}`;
 
-  const { t } = useTranslationManual({ lang: 'en' });
-
+  const { t } = useTranslationManual({ lng: 'en' });
+  const pathname = usePathname();
   const operationConfig: Record<
     string,
     { gradient: string; emoji: string; label: string }
@@ -82,6 +83,7 @@ export default function CalculateWidget() {
           {/* 카드 본체 */}
           <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/95 backdrop-blur-xl">
             {/* 헤더 */}
+            <div>{pathname}</div>
             <div className={`bg-gradient-to-r ${config.gradient} p-4`}>
               <div className="flex items-center justify-center gap-3">
                 <span className="text-4xl">{config.emoji}</span>
@@ -115,7 +117,7 @@ export default function CalculateWidget() {
                     {t('first_number')}
                   </span>
                 </div>
-
+                <div>{language}</div>
                 <div
                   className={`h-12 w-12 rounded-full bg-gradient-to-br ${config.gradient} flex items-center justify-center shadow-lg`}
                 >

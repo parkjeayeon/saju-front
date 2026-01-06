@@ -68,33 +68,20 @@ export function useTranslation(ns?: string, options?: any) {
 type UseTranslationManualArgs = {
   ns?: string;
   options?: any;
-  lang?: 'en' | 'ko';
+  lng?: 'en' | 'ko';
 };
 
 export function useTranslationManual({
   ns,
-  options,
-  lang = 'en',
+  lng = 'en',
 }: UseTranslationManualArgs = {}) {
-  const ret = useTranslationOrg(ns, options);
-  const { i18n } = ret;
+  const ret = useTranslationOrg(ns, { lng });
 
-  const runsOnServerSide = typeof window === 'undefined';
-
-  // SSR: 동기 반영
-  if (runsOnServerSide && lang && i18n.resolvedLanguage !== lang) {
-    i18n.changeLanguage(lang);
-  }
-
-  // Client: 반영
+  // Cookie 설정은 브라우저 자체 API 사용
   useEffect(() => {
-    if (!lang || i18n.resolvedLanguage === lang) return;
-    i18n.changeLanguage(lang);
-  }, [lang, i18n]);
+    if (!lng || typeof window === 'undefined') return;
+    document.cookie = `${cookieName}=${lng}; path=/; max-age=31536000`; // 1년
+  }, [lng]);
 
-  return {
-    ...ret,
-    language: i18n.resolvedLanguage,
-    source: lang ? 'manual' : 'none',
-  };
+  return ret;
 }
