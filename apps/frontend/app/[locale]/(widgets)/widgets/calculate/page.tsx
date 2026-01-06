@@ -36,7 +36,7 @@ export default function CalculateWidget() {
   const result = data?.result ?? 0;
   const expression = data?.expression || `${a} ${symbol} ${b}`;
 
-  const t: any = useTranslationManual({ lng: 'ko' });
+  const t: any = useTranslationManual({ lng: language });
   const pathname = usePathname();
   const operationConfig: Record<
     string,
