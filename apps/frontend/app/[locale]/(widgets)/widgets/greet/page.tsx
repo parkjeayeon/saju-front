@@ -26,13 +26,11 @@ export default function GreetWidget() {
   const languageEmoji: Record<string, string> = {
     ko: '🇰🇷',
     en: '🇺🇸',
-    ja: '🇯🇵',
   };
 
   const languageLabel: Record<string, string> = {
     ko: '한국어',
     en: 'English',
-    ja: '日本語',
   };
 
   return (
