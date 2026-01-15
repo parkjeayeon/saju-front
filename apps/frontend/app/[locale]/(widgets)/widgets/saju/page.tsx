@@ -28,6 +28,7 @@ export default function Page() {
       }}
     >
       saju page
+      {JSON.stringify(data, null, 2)}
     </div>
   );
 }
