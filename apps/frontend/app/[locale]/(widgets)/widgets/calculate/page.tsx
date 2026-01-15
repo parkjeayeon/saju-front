@@ -2,8 +2,7 @@
 
 import React from 'react';
 import { useDisplayMode, useMaxHeight, useWidgetProps } from '@/hooks';
-import { useTranslationManual } from '@/app/i18n/client';
-import { usePathname } from 'next/navigation';
+import { useTranslation } from '@/app/i18n/client';
 
 type CalculateData = {
   operation?: string;
@@ -13,7 +12,6 @@ type CalculateData = {
   result?: number;
   expression?: string;
   timestamp?: string;
-  language: 'en' | 'ko';
 };
 
 type WidgetProps = {
@@ -26,18 +24,16 @@ export default function CalculateWidget() {
   const props = useWidgetProps<WidgetProps>();
   const maxHeight = useMaxHeight() ?? undefined;
   const displayMode = useDisplayMode();
+  const { t } = useTranslation();
 
   const data = props?.result?.structuredContent || props;
   const operation = data?.operation || 'add';
   const a = data?.a ?? 0;
   const b = data?.b ?? 0;
-  const language = data?.language || 'ko';
   const symbol = data?.symbol || '+';
   const result = data?.result ?? 0;
   const expression = data?.expression || `${a} ${symbol} ${b}`;
 
-  const t: any = useTranslationManual({ lng: language });
-  const pathname = usePathname();
   const operationConfig: Record<
     string,
     { gradient: string; emoji: string; label: string }
@@ -83,7 +79,6 @@ export default function CalculateWidget() {
           {/* 카드 본체 */}
           <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-slate-900/95 backdrop-blur-xl">
             {/* 헤더 */}
-            <div>{pathname}</div>
             <div className={`bg-gradient-to-r ${config.gradient} p-4`}>
               <div className="flex items-center justify-center gap-3">
                 <span className="text-4xl">{config.emoji}</span>
@@ -114,9 +109,10 @@ export default function CalculateWidget() {
                     <span className="text-2xl font-bold text-white">{a}</span>
                   </div>
                   <span className="text-xs tracking-wider text-slate-500 uppercase">
-                    {t['first_number']}
+                    {t('first_number')}
                   </span>
                 </div>
+
                 <div
                   className={`h-12 w-12 rounded-full bg-gradient-to-br ${config.gradient} flex items-center justify-center shadow-lg`}
                 >
@@ -128,7 +124,7 @@ export default function CalculateWidget() {
                     <span className="text-2xl font-bold text-white">{b}</span>
                   </div>
                   <span className="text-xs tracking-wider text-slate-500 uppercase">
-                    {t['second_number']}
+                    {t('second_number')}
                   </span>
                 </div>
               </div>

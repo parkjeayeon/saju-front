@@ -4,7 +4,6 @@ import '../globals.css';
 import { ReactNode } from 'react';
 import { languages } from '@/app/i18n/settings';
 import { notFound } from 'next/navigation';
-import { getTranslation } from '@/app/i18n';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
