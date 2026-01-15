@@ -13,7 +13,12 @@ type WidgetProps = {
   };
 };
 
-export default function Page() {
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
   const props = useWidgetProps<WidgetProps>();
   const maxHeight = useMaxHeight() ?? undefined;
   const displayMode = useDisplayMode();
@@ -28,6 +33,8 @@ export default function Page() {
         height: displayMode === 'fullscreen' ? maxHeight : undefined,
       }}
     >
+      {lang}
+      {lang === 'en' ? 'English' : 'Korean'}
       saju page
       {JSON.stringify(data, null, 2)}
       <Button onClick={() => alert(JSON.stringify(data))}>확인완료</Button>
