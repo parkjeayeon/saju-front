@@ -1,5 +1,6 @@
 'use client';
 import { useDisplayMode, useMaxHeight, useWidgetProps } from '@/hooks';
+import { Button } from '@/components/ui/button';
 
 type GreetData = {
   name?: string;
@@ -29,6 +30,7 @@ export default function Page() {
     >
       saju page
       {JSON.stringify(data, null, 2)}
+      <Button onClick={() => alert(JSON.stringify(data))}>확인완료</Button>
     </div>
   );
 }
