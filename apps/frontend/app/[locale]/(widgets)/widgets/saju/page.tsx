@@ -1,3 +1,4 @@
+'use client';
 import { useDisplayMode, useMaxHeight, useWidgetProps } from '@/hooks';
 
 type GreetData = {
