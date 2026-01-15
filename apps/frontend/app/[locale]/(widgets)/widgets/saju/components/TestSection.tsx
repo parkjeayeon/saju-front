@@ -20,6 +20,10 @@ export default function TestSection({ locale }: { locale: 'en' | 'ko' }) {
 
   const data = props?.result?.structuredContent || props;
 
+  if (!data) {
+    return <div>Loading....</div>;
+  }
+
   return (
     <div
       className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-violet-950 via-purple-950 to-fuchsia-950 p-6 text-xl text-white"
